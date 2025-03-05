@@ -112,6 +112,107 @@ See the `examples/` directory for detailed examples:
 - Matplotlib
 - Seaborn
 
+## How Our Error Models Work
+
+SynthLongRead uses a sequence context-based approach to model and reproduce sequencing errors. Here's a technical explanation of how the models operate:
+
+### The 5-Base Window Approach
+
+We model errors using a sliding window of 5 consecutive bases:
+
+```
+    ↓ Center base
+  ACGTT
+  12345
+```
+
+1. For each position in a read, we examine the 5-base context (the center base and 2 bases on each side)
+2. This context is converted to a numerical representation (one-hot encoding):
+   - A = [1,0,0,0]
+   - C = [0,1,0,0]
+   - G = [0,0,1,0]
+   - T = [0,0,0,1]
+3. For example, "ACGTT" becomes a 20-feature vector: [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,1]
+
+### Model Training Process
+
+We train our models on millions of these examples from real data:
+
+1. **Data Collection**: For each aligned base in real data, we record:
+   - The 5-base context
+   - What actually happened (match, substitution to which base, deletion)
+   - The quality score assigned
+   - The relative position in the read
+
+2. **Neural Network Training**: Our models learn the relationship between:
+   - Input: 5-base context + position
+   - Output: Probabilities of different error types
+
+### How Synthetic Reads Are Generated
+
+The read generation process works like this:
+
+1. **Start with Perfect Sequence**: 
+   - Begin with the correct transcript sequence from the reference
+
+2. **Process Base-by-Base**:
+   - For each base position, extract the 5-base context
+   - Feed this context into our error model
+   - The model outputs probabilities for different outcomes:
+     ```
+     Match (correct read): 95.2%
+     Substitution to A: 1.2%
+     Substitution to C: 0.8%
+     Substitution to G: 0.5%
+     Substitution to T: 0.3%
+     Deletion: 2.0%
+     ```
+   - Randomly sample an outcome based on these probabilities
+   - Apply the selected error (or keep the base if "match" is selected)
+   - Use our quality score model to assign a realistic quality score
+
+3. **Handle Insertions Separately**:
+   - After processing each base, determine if an insertion should occur
+   - If yes, insert a random base with appropriate quality score
+
+### Ground Truth Tracking
+
+Every synthetic read maintains a connection to its source:
+
+1. **Read IDs Include**:
+   - Original transcript ID
+   - Cell barcode
+   - Position within transcript
+   - Any introduced errors
+
+2. **Ground Truth Matrix**:
+   - Records exact transcript counts per cell
+   - Serves as the benchmark for evaluating analysis tool performance
+
+### Example of Model in Action
+
+Here's a simplified example of how a read might be processed:
+
+Original transcript fragment: `AACGTACGT`
+
+Processing steps:
+1. Consider context `AACGT` (center base C)
+   - Model predicts 97% match, 2% substitution, 1% deletion
+   - Random sample selects "match"
+   - Keep C, assign quality score Q30
+
+2. Consider context `ACGTA` (center base G)
+   - Model predicts 80% match, 15% substitution, 5% deletion
+   - Random sample selects "substitution to T"
+   - Replace G with T, assign quality score Q18
+
+3. Continue through the sequence...
+
+Resulting read: `AACTACGT` (with one substitution)
+
+This approach reproduces the specific error patterns of your sequencing technology, including homopolymer errors, sequence-specific biases, and position-dependent error rates.
+
+
 ## Citation
 
 If you use SynthLongRead in your research, please cite:
