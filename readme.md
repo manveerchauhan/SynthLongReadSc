@@ -16,7 +16,6 @@ SynthLongRead is a machine learning-based framework that learns error patterns f
 - **Internal priming simulation**: Models common library preparation artifacts
 - **Comprehensive benchmarking**: Evaluates tool performance against known ground truth
 - **User-friendly configuration**: YAML-based configuration system
-- **Command-line interface**: Simple operation without coding knowledge
 
 ## Installation
 
