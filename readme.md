@@ -1,4 +1,4 @@
-# SynthLongRead
+# SynthLongReadSc
 
 A Python framework for generating synthetic long-read scRNA-seq data with realistic error profiles for benchmarking analysis tools.
 
