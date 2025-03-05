@@ -2,7 +2,7 @@
 
 A Python framework for generating synthetic long-read scRNA-seq data with realistic error profiles for benchmarking analysis tools.
 
-![SynthLongRead Pipeline](/docs/images/pipeline_flowchart.png)
+![SynthLongRead Pipeline](./docs/images/flowchart.png)
 
 ## Overview
 
