@@ -341,6 +341,7 @@ If you use SynthLongRead in your research, please cite:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+Feel free to contact me for questions/suggestions: mschauhan@student.unimelb.edu.au
 
 
 
