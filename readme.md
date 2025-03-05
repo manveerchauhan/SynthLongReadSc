@@ -2,7 +2,7 @@
 
 A Python framework for generating synthetic long-read scRNA-seq data with realistic error profiles for benchmarking analysis tools.
 
-![SynthLongRead Pipeline](./docs/images/pipeline_flowchart.png)
+![SynthLongRead Pipeline](/docs/images/pipeline_flowchart.png)
 
 ## Overview
 
@@ -22,7 +22,7 @@ SynthLongRead is a machine learning-based framework that learns error patterns f
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/SynthLongRead.git
+git clone https://github.com/manveerchauhan/SynthLongReadSc.git
 cd SynthLongRead
 
 # Install dependencies
