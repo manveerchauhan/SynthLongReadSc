@@ -1,0 +1,55 @@
+############################################################
+# SynthLongRead Configuration File
+############################################################
+
+# Input files
+input:
+  reference_transcriptome: "/path/to/transcriptome.fa"  # Reference transcriptome FASTA file
+  reference_gtf: "/path/to/annotation.gtf"              # Reference GTF annotation file
+  real_fastq: "/path/to/real_data.fastq"                # Real FASTQ file for training
+  reference_genome: "/path/to/genome.fa"                # Reference genome (optional, needed for FLAMES)
+  alignment_file: null                                  # Pre-computed alignment BAM file (optional)
+
+# Output settings
+output:
+  directory: "./synthlongread_output"                   # Main output directory
+  overwrite: true                                       # Overwrite existing output files
+
+# Sequencing platform settings
+platform:
+  type: "ONT"                                           # Sequencing platform: "ONT" or "PacBio"
+  is_single_nucleus: false                              # Single-nucleus (true) vs. single-cell (false)
+  adapter_5p: "CCCATGTACTCTGCGTTGATACCACTGCTT"          # 5' adapter sequence
+  adapter_3p: "AAAAAAAAAAAAAAAAAA"                      # 3' adapter sequence (poly-A tail)
+
+# Synthetic dataset parameters
+dataset:
+  n_cells: 100                                          # Number of cells to generate
+  sparsity: 0.8                                         # Gene expression sparsity (0-1)
+  max_reads: 100000                                     # Maximum number of reads to generate
+
+# Error modeling parameters
+error_model:
+  context_size: 5                                       # Context size for error model
+  load_existing: false                                  # Load existing models instead of training
+  model_dir: null                                       # Directory with pre-trained models (if loading)
+
+# Internal priming simulation
+internal_priming:
+  enabled: false                                        # Enable internal priming simulation
+  rate: null                                            # Internal priming rate (null = auto-infer)
+  min_a_content: 0.65                                   # Minimum A-content threshold
+  window_size: 10                                       # Window size for A-content analysis
+  infer_from_data: true                                 # Infer parameters from real data
+
+# Benchmarking options
+benchmark:
+  run_flames: false                                     # Run FLAMES benchmark
+  evaluate_internal_priming: false                      # Specific evaluation for internal priming
+  flames_path: "flames"                                 # Path to FLAMES executable
+
+# Performance settings
+performance:
+  threads: 4                                            # Number of threads to use
+  device: "auto"                                        # Compute device: "cpu", "cuda", or "auto"
+  seed: 42                                              # Random seed for reproducibility
