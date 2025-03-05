@@ -15,6 +15,9 @@ SynthLongRead is a machine learning-based framework that learns error patterns f
 - Supports both ONT and PacBio error profiles
 - Includes comprehensive evaluation metrics for benchmarking
 
+## Pipeline Overview
+![SynthLongRead Pipeline Flowchart](docs/images/flowchart.png)
+
 ## Installation
 
 ```bash
