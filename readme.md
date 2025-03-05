@@ -16,6 +16,7 @@ SynthLongRead is a machine learning-based framework that learns error patterns f
 - Includes comprehensive evaluation metrics for benchmarking
 
 ## Pipeline Overview
+
 ![SynthLongRead Pipeline Flowchart](docs/images/flowchart.png)
 
 ## Installation
